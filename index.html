@@ -1,69 +1,92 @@
 <!DOCTYPE html>
 <html lang = "en">
 <head>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <link rel="stylesheet" href="main.css">
   <meta charset="utf-8">
   <meta name = "viewport" content = "width=device-width, intial-scale=1.0">
   <title>Dummy Firebase Writing</title>
 </head>
 <body>
+  <div class = "container">
+  <nav>
+    <a href="./index.html">Home</a>
+    <a href="./medications.html">Medications</a>
+    <a href="./labs.html">Labs</a>
+  </nav>
+  <p></p>
+<div class = "row">
+  <div class = "col-lg-12">
 <h1>Patient</h1>
+</div>
+<div class = "col-lg-12">
   <label>First Name: </label><input id = "ptFName" type = "text">
   <label>Last Name: </label><input id = "ptLName" type = "text">
+  <label>ID: </label><input id = "idNum" type = "number" size = 5>
+</div>
+<div class = "col-lg-12">
 <h2>General Info</h2>
-  <label>SS#: </label><input id = "ssNum" type = "text">
-  <label>Height: </label><input id = "hgt" type = "text">
-  <label>Weight: </label><input id = "wgt" type = "text">
-  <label>DOB: </label><input id = "dob" type = "text">
-  <label>BMI: </label><input id = "bmi" type = "text">
+</div>
+<div class = "col-lg-12">
+  <label>SS#: </label><input id = "ssNum" type = text size = 10>
+  <label>Height: </label><input id = "hgt" type = "number" size = 5><label> inches. </label>
+  <label>Weight: </label><input id = "wgt" type = "number" size = 5><label> lbs. </label>
+  <label>DOB: </label><input id = "dob" type = "date">
+  <label>BMI: </label><input id = "bmi" type = "number" size = 5>
   <label>Gender: </label>
   <select id ="gen">
     <option value = "male">Male</option>
     <option value = "female">Female</option>
     <option value = "other">Other</option>
   </select>
+</div>
+</div>
 
-<h2>Medications</h2>
-<h4>Current</h4> <button id = "currMedsBtn">Update Current Medications</button>
+<div class = row>
+  <div class = "col-lg-12">
+<h2>Diagnoses</h2>
+</div>
+<div class = "col-lg-12">
+  <label>Diagnosis 1: </label><input id = "dx1" type = text>
+</div><div class = "col-lg-12">
+  <label>Diagnosis 2: </label><input id = "dx2" type = text>
+</div><div class = "col-lg-12">
+  <label>Diagnosis 3: </label><input id = "dx3" type = text>
+</div><div class = "col-lg-12">
+  <label>Diagnosis 4: </label><input id = "dx4" type = text>
+</div><div class = "col-lg-12">
+  <label>Diagnosis 5: </label><input id = "dx5" type = text> 
+</div>
+
+<div class = row>
+  <div class = "col-lg-12">
+<h2 id = "bp">Blood Pressure</h2>
+</div>
+<div class = "col-sm-3" id = "oddcol">
+  <label>Random: </label><p></p><input id = "ranSys" type = number size = 5><p> ————</p> <input id = "ranDia" type = number size = 5>
+</div><div class = "col-sm-3" id = "lastcol">
+  <label>Last Visit: </label><p></p><input id = "lvSys" type = number size = 5><p> ————</p> <input id = "lvDia" type = number size = 5>
+</div><div class = "col-sm-3" id = "currcol">
+  <label>Current Visit: </label><p></p><input id = "cvSys" type = number size = 5><p> ————</p> <input id = "cvDia" type = number size = 5>
+</div>
+</div>
 <p></p>
-  <label>Medication 1: </label><input id = "med1" type = "text">
-    <label>Dosage: </label><input id = "dsg1" type = "text">
-    <label>Frequency: </label><input id = "frq1" type = "text">
-    <label>Start Date: </label><input id = "sdate1" type = "text">
-    <p></p>
-  <label>Medication 2: </label><input id = "med2" type = "text">
-    <label>Dosage: </label><input id = "dsg2" type = "text">
-    <label>Frequency: </label><input id = "frq2" type = "text">
-    <label>Start Date: </label><input id = "sdate2" type = "text">
-    <p></p>
-  <label>Medication 3: </label><input id = "med3" type = "text">
-    <label>Dosage: </label><input id = "dsg3" type = "text">
-    <label>Frequency: </label><input id = "frq3" type = "text">
-    <label>Start Date: </label><input id = "sdate3" type = "text">
-    <p></p>
-  <label>Medication 4: </label><input id = "med4" type = "text">
-    <label>Dosage: </label><input id = "dsg4" type = "text">
-    <label>Frequency: </label><input id = "frq4" type = "text">
-    <label>Start Date: </label><input id = "sdate4" type = "text">
-    <p></p>
 
-<h4>Past</h4> <button id = "pastMedsBtn">Update Past Medications</button>
-<p></p>
-  <label>Medication 1: </label><input id = "med1" type = "text">
-  <label>Medication 2: </label><input id = "med2" type = "text">
-  <label>Medication 3: </label><input id = "med3" type = "text">
-  <label>Medication 4: </label><input id = "med4" type = "text">
-
-<h2>Labs</h2>
-
-  <hr>
+<div class ="col-lg-6">
+  <p></p>
   <button id = "inBtn">INSERT</button>
   <button id = "upBtn">UPDATE</button> <!-- have a create(similar to insert), find(similar to select), delete and update button-->
-  <button id = "seBtn">SELECT</button> <!-- have an update medications button to use for updating and displaying meds-->
+  <button id = "seBtn">FIND</button> <!-- have an update medications button to use for updating and displaying meds-->
   <button id = "deBtn">DELETE</button>
-
+</div>
+</div>
+<p></p>
 </body>
-<script type = "module">
-
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.min.js"></script>
+<!-- <script src = "indexScript.js" type = "module"></script> -->
+<script type = module>
+  
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
 
 const firebaseConfig = {
@@ -90,82 +113,106 @@ const db = getFirestore();
 
   async function AddDocument_CustomId(){
     var ref = doc(db, ptLName.value,ptFName.value); 
+    if (!isValidSS(ssNum.value)){
+      alert("Social Security Number is invalid")
+    }else{
     // Change statename to patient last name and Cityname to PatientFirstName so that the doc saves it under the first name
     await setDoc(
       ref, {
         Height: hgt.value,
         DOB: dob.value,
         Weight: wgt.value,
-        SS: ssNum.value,
-        BMI: bmi.value,
+        BMI: parseFloat(((wgt.value/(hgt.value**2))*703).toFixed(2)),
         Gender: gen.value,
+        Id : Math.floor(Math.random() * 100),
+        Diagnosis1: dx1.value,
+        Diagnosis2: dx2.value,
+        Diagnosis3: dx3.value,
+        Diagnosis4: dx4.value,
+        Diagnosis5: dx5.value,
+        lastVisitSystolic: lvSys.value,
+        lastVisitDiastolic: lvDia.value,
+        curVisitSystolic: cvSys.value,
+        curVisitDiastolic: cvDia.value,
+        ranSystolic: ranSys.value,
+        ranDiasolic: ranDia.value,
+        SS: ssNum.value
       }
     ).then(()=>{
       alert("Data successfully added");
     }).catch((error)=>{
       alert("Operation failed with error"+ error);
     });
-  }
-  async function AddDocument_CurrMeds(){
-    var docMed1Ref = doc(db,ptLName.value, ptFName.value, "Current Meds", med1.value);
-    var docMed2Ref = doc(db,ptLName.value, ptFName.value, "Current Meds", med2.value);
-    var docMed3Ref = doc(db,ptLName.value, ptFName.value, "Current Meds", med3.value);
-    var docMed4Ref = doc(db,ptLName.value, ptFName.value, "Current Meds", med4.value);
+  }}
 
-    await setDoc(
-      docMed1Ref, {
-        Dosage: dsg1.value,
-        Frequency: frq1.value,
-        Start_Date: sdate1.value
-      });
-    await setDoc(
-      docMed2Ref, {
-        Dosage: dsg2.value,
-        Frequency: frq2.value,
-        Start_Date: sdate2.value
-      });
-    await setDoc(
-      docMed3Ref, {
-        Dosage: dsg3.value,
-        Frequency: frq3.value,
-        Start_Date: sdate3.value
-      });
-      await setDoc(
-      docMed4Ref, {
-        Dosage: dsg4.value,
-        Frequency: frq4.value,
-        Start_Date: sdate4.value
-      }).then(()=>{
-      alert("Meds successfully added");
-    }).catch((error)=>{
-      alert("Operation failed with error"+ error);
-    });
+ function isValidSS(str){
+  let regex = new RegExp(/^(?!666|000|9\d{2})\d{3}-(?!00)\d{2}-(?!0{4})\d{4}$/);
+  if (str == null) {
+        return "false";
+    }
+    if (regex.test(str) == true) {
+        return "true";
+    }
+    else {
+        return "false";
+    }
+}
 
-  }
 async function GetCollection(){
   var ref = collection(db,)
 }
 
   async function GetaDocument(){
-    var ref = doc(db,"Arkansas",cityName.value);
+    var ref = doc(db, ptLName.value, ptFName.value);
     const docSnap = await getDoc(ref);
-    if(docSnap.exists()){
-      country.value = docSnap.data().Country;
-      hemisphere.value = docSnap.data().Hemisphere;
-      stateName.value = docSnap.data().StateName;
+    if (docSnap.exists()){
+      hgt.value = docSnap.data().Height;
+      wgt.value = docSnap.data().Weight;
+      dob.value = docSnap.data().DOB;
+      ssNum.value = docSnap.data().SS;
+      bmi.value = docSnap.data().BMI;
+      gen.value = docSnap.data().Gender;
+      idNum.value = docSnap.data().Id;
+      dx1.value = docSnap.data().Diagnosis1;
+      dx2.value = docSnap.data().Diagnosis2;
+      dx3.value = docSnap.data().Diagnosis3;
+      dx4.value = docSnap.data().Diagnosis4;
+      dx5.value = docSnap.data().Diagnosis5;
+      lvSys.value = docSnap.data().lastVisitSystolic;
+      lvDia.value = docSnap.data().lastVisitDiastolic;
+      cvSys.value = docSnap.data().curVisitSystolic;
+      cvDia.value = docSnap.data().curVisitDiastolic;
+      ranSys.value = docSnap.data().ranSystolic;
+      ranDia.value = docSnap.data().ranDiasolic;
     }else{
       alert("no such document exists");
     }
   }
 
+
+
   async function UpdateFieldsinDoc(){
-    var ref = doc(db,"Arkansas",cityName.value);
+    var ref = doc(db, ptLName.value,ptFName.value);
 
     await updateDoc(
       ref, {
-        Hemisphere: hemisphere.value,
-        StateName: stateName.value,
-        Country: country.value
+        Height: hgt.value,
+        DOB: dob.value,
+        Weight: wgt.value,
+        SS: ssNum.value,
+        BMI: parseFloat(((wgt.value/(hgt.value**2))*703).toFixed(2)),
+        Gender: gen.value,
+        Diagnosis1: dx1.value,
+        Diagnosis2: dx2.value,
+        Diagnosis3: dx3.value,
+        Diagnosis4: dx4.value,
+        Diagnosis5: dx5.value,
+        lastVisitSystolic: lvSys.value,
+        lastVisitDiastolic: lvDia.value,
+        curVisitSystolic: cvSys.value,
+        curVisitDiastolic: cvDia.value,
+        ranSystolic: ranSys.value,
+        ranDiasolic: ranDia.value
       }
     ).then(()=>{
       alert("Data successfully updated");
@@ -192,7 +239,9 @@ async function GetCollection(){
   seBtn.addEventListener("click", GetaDocument);
   upBtn.addEventListener("click", UpdateFieldsinDoc);
   deBtn.addEventListener("click", DeleteDocument);
-  currMedsBtn.addEventListener("click", AddDocument_CurrMeds);
 
+
+  
 </script>
+
 </html>

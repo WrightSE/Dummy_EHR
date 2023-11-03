@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dummy EHR</title>
+  </head>
+  <body>
+    <nav>
+        <a href="./index.html">Home</a>
+        <a href="./medications.html">Medications</a>
+        <a href="./labs.html">Labs</a>
+    </nav>
+    <p></p>
+<label>Patient First Name: </label><input id = "ptFName" type = "text">
+<label>Patient Last Name: </label><input id = "ptLName" type = "text">
+<label>ID: </label><input id = "idNum" type = number>
+<p></p>
+<h2>Medications</h2> 
+<h4>Current</h4> <button id = "currMedsBtn">Update Current Medications</button>
+<p></p>
+  <label>Medication 1: </label><input id = "med1" type = "text">
+    <label>Dosage: </label><input id = "dsg1" type = "text">
+    <label>Frequency: </label><input id = "frq1" type = "text">
+    <label>Start Date: </label><input id = "sdate1" type = "text">
+    <p></p>
+  <label>Medication 2: </label><input id = "med2" type = "text">
+    <label>Dosage: </label><input id = "dsg2" type = "text">
+    <label>Frequency: </label><input id = "frq2" type = "text">
+    <label>Start Date: </label><input id = "sdate2" type = "text">
+    <p></p>
+  <label>Medication 3: </label><input id = "med3" type = "text">
+    <label>Dosage: </label><input id = "dsg3" type = "text">
+    <label>Frequency: </label><input id = "frq3" type = "text">
+    <label>Start Date: </label><input id = "sdate3" type = "text">
+    <p></p>
+  <label>Medication 4: </label><input id = "med4" type = "text">
+    <label>Dosage: </label><input id = "dsg4" type = "text">
+    <label>Frequency: </label><input id = "frq4" type = "text">
+    <label>Start Date: </label><input id = "sdate4" type = "text">
+    <p></p>
+
+<h4>Past</h4> <button id = "pastMedsBtn">Update Past Medications</button>
+<p></p>
+  <label>Medication 1: </label><input id = "med1" type = "text">
+  <label>Medication 2: </label><input id = "med2" type = "text">
+  <label>Medication 3: </label><input id = "med3" type = "text">
+  <label>Medication 4: </label><input id = "med4" type = "text">
+
+  </body>
+  <script type = "module">
+
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
+    
+    const firebaseConfig = {
+        apiKey: "AIzaSyD2L_i9Qb9oNmi4Ksb2zpSxbSNqnTPMqVM",
+        authDomain: "ehr-base.firebaseapp.com",
+        projectId: "ehr-base",
+        storageBucket: "ehr-base.appspot.com",
+        messagingSenderId: "1011131662633",
+        appId: "1:1011131662633:web:14833e1b06784c48417738",
+        measurementId: "G-SEQ8ZNX56V"
+      };
+    
+      // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    
+    import{
+      getFirestore, doc, getDoc,setDoc, collection, addDoc,updateDoc,deleteDoc, deleteField
+    } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js";
+    
+    
+    // Initialize Cloud Firestore and get a reference to the service
+    const db = getFirestore();
+
+      async function AddDocument_CurrMeds(){
+        var docMed1Ref = doc(db,ptLName.value, ptFName.value, "Current Meds", med1.value);
+        var docMed2Ref = doc(db,ptLName.value, ptFName.value, "Current Meds", med2.value);
+        var docMed3Ref = doc(db,ptLName.value, ptFName.value, "Current Meds", med3.value);
+        var docMed4Ref = doc(db,ptLName.value, ptFName.value, "Current Meds", med4.value);
+    
+        await setDoc(
+          docMed1Ref, {
+            Dosage: dsg1.value,
+            Frequency: frq1.value,
+            Start_Date: sdate1.value
+          });
+        await setDoc(
+          docMed2Ref, {
+            Dosage: dsg2.value,
+            Frequency: frq2.value,
+            Start_Date: sdate2.value
+          });
+        await setDoc(
+          docMed3Ref, {
+            Dosage: dsg3.value,
+            Frequency: frq3.value,
+            Start_Date: sdate3.value
+          });
+          await setDoc(
+          docMed4Ref, {
+            Dosage: dsg4.value,
+            Frequency: frq4.value,
+            Start_Date: sdate4.value
+          }).then(()=>{
+          alert("Meds successfully added");
+        }).catch((error)=>{
+          alert("Operation failed with error"+ error);
+        });
+      }
+
+    async function GetMeds(){
+        var ref = db.collection(ptLName.value);
+        var outdoc = ref.where('idNum', '==', idNum.value);
+        var med1 = outdoc.collection("Current Medications")
+        if (meds.exists()){
+            dsg1.value = med1.doc().data().Dosage,
+            frq1.value = Frequency
+        }
+    }
+    
+      async function GetaDocument(){
+    var ref = db.collection(ptLName.value);
+    var doc = ref.where('idNum', '==', idNum.value);
+
+    if (doc.exists()){
+      hgt.value = doc.data().Height;
+      wgt.value = doc.data().Weight;
+      ssNum.value = doc.data().SS;
+      bmi.value = doc.data().BMI;
+      gen.value = doc.data().Gender;
+    }else{
+      alert("no such document exists");
+    }
+  }
+
+    
+      currMedsBtn.addEventListener("click", AddDocument_CurrMeds);
+    
+    </script>
+</html>

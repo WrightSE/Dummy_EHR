@@ -1,0 +1,22 @@
+label{
+    padding: 5px;
+}
+
+#oddcol{
+    top: -4px;
+    padding-left: 35px;
+}
+
+#lastcol{
+    padding-left: 25px;
+    top: -4px;
+}
+#currcol{
+    padding-left: -10px;
+    top: -5px
+    
+}
+
+#bp{
+    padding-left: 15px;
+}
