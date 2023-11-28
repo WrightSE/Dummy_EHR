@@ -2,6 +2,17 @@ label{
     padding: 5px;
 }
 
+h1{
+    display: inline;
+}
+input{
+    height: 28px;
+}
+
+#buttonRow{
+    padding-top: 15px;
+}
+
 #oddcol{
     top: -4px;
     padding-left: 35px;
@@ -13,7 +24,7 @@ label{
 }
 #currcol{
     padding-left: -10px;
-    top: -5px
+    top: -13px;
     
 }
 

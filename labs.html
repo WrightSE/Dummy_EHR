@@ -1,16 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="main.css">
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Business website</title>
+    <title>Labs</title>
   </head>
   <body>
-    <nav>
-        <a href="./index.html">Home</a>
-        <a href="./medications.html">Medications</a>
-        <a href="./labs.html">Labs</a>
+    <header>
+      <nav id="mainnav" class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light border-bottom box-shadow mb-3">
+        <div class="container">
+            <a class="navbar-brand" asp-area="" asp-page="/Index">Dummy EHR</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                <ul class="navbar-nav flex-grow-1">
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" href = "./index.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" href = "./patient.html">Patient Information</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link text-dark" href = "./medications.html">Patient Medications</a>
+                  </li>
+                      <li class="nav-item">
+                      <a class="nav-link text-dark" href = "./labs.html">Patient Labs</a>
+                  </li>
+                </ul>
+            </div>
+        </div>
     </nav>
+    </header>
   </body>
 </html>
