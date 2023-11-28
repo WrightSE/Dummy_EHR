@@ -12,22 +12,17 @@ input{
 #buttonRow{
     padding-top: 15px;
 }
-
-#oddcol{
-    top: -4px;
-    padding-left: 35px;
+#currMedsBtn{
+    margin-left: 30px;
 }
-
-#lastcol{
-    padding-left: 25px;
-    top: -4px;
+#medsRow{
+    padding-top: 15px;
+    padding-left: 50px;
 }
-#currcol{
-    padding-left: -10px;
-    top: -13px;
-    
+#pastMedsBtn{
+    margin-left: 30px;
 }
-
-#bp{
-    padding-left: 15px;
+#firstCurrRow{
+    padding-top: 25px;
+    padding-left: 50px;
 }

@@ -41,7 +41,10 @@
 <label>ID: </label><input id = "idNum" type = number>
 <p></p>
 <h2>Medications</h2> 
-<h4>Current</h4> <button id = "currMedsBtn">Update Current Medications</button>
+<h4>Current</h4> <button id = "currMedsBtn">Add Current Medications</button>
+<button id = "updCurrMedsBtn"> Update Current Medications</button>
+<button id = "getCurrMedsBtn">Find Current Medications</button>
+<button id = "delCurrMedsBtn">Delete All Current Medications</button>
 <p></p>
   <label>Medication 1: </label><input id = "med1" type = "text">
     <label>Dosage: </label><input id = "dsg1" type = "text">
@@ -66,10 +69,10 @@
 
 <h4>Past</h4> <button id = "pastMedsBtn">Update Past Medications</button>
 <p></p>
-  <label>Medication 1: </label><input id = "med1" type = "text">
-  <label>Medication 2: </label><input id = "med2" type = "text">
-  <label>Medication 3: </label><input id = "med3" type = "text">
-  <label>Medication 4: </label><input id = "med4" type = "text">
+  <label>Medication 1: </label><input id = "pmed1" type = "text">
+  <label>Medication 2: </label><input id = "pmed2" type = "text">
+  <label>Medication 3: </label><input id = "pmed3" type = "text">
+  <label>Medication 4: </label><input id = "pmed4" type = "text">
 
   </body>
   <script type = "module">
@@ -90,7 +93,7 @@
     const app = initializeApp(firebaseConfig);
     
     import{
-      getFirestore, doc, getDoc,setDoc, collection, addDoc,updateDoc,deleteDoc, deleteField
+      getFirestore, doc, getDoc, setDoc, collection, addDoc,updateDoc,deleteDoc, deleteField, getDocs
     } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js";
     
     
@@ -98,10 +101,10 @@
     const db = getFirestore();
 
       async function AddDocument_CurrMeds(){
-        var docMed1Ref = doc(db,ptLName.value, ptFName.value, "Current Meds", med1.value);
-        var docMed2Ref = doc(db,ptLName.value, ptFName.value, "Current Meds", med2.value);
-        var docMed3Ref = doc(db,ptLName.value, ptFName.value, "Current Meds", med3.value);
-        var docMed4Ref = doc(db,ptLName.value, ptFName.value, "Current Meds", med4.value);
+        var docMed1Ref = doc(db, ptLName.value, ptFName.value, "Current Meds", med1.value);
+        var docMed2Ref = doc(db, ptLName.value, ptFName.value, "Current Meds", med2.value);
+        var docMed3Ref = doc(db, ptLName.value, ptFName.value, "Current Meds", med3.value);
+        var docMed4Ref = doc(db, ptLName.value, ptFName.value, "Current Meds", med4.value);
     
         await setDoc(
           docMed1Ref, {
@@ -133,20 +136,44 @@
         });
       }
 
-    async function GetMeds(){
-        var ref = db.collection(ptLName.value);
-        var outdoc = ref.where('idNum', '==', idNum.value);
-        var med1 = outdoc.collection("Current Medications")
-        if (meds.exists()){
-            dsg1.value = med1.doc().data().Dosage,
-            frq1.value = Frequency
-        }
+
+
+    async function GetCurrMeds(){
+        var Meds = collection(db, ptLName.value, ptFName.value,"Current Meds");
+        var count = 0;
+        const snapshot = await getDocs(collection(db, ptLName.value, ptFName.value, "Current Meds"));
+        snapshot.forEach((doc)=> {
+          console.log(count);
+          if (count == 0){
+            med1.value = doc.id;
+            dsg1.value = doc.data().Dosage;
+            frq1.value = doc.data().Frequency;
+            sdate1.value = doc.data().Start_Date;
+          }if(count == 1){
+            med2.value = doc.id;
+            dsg2.value = doc.data().Dosage;
+            frq2.value = doc.data().Frequency;
+            sdate2.value = doc.data().Start_Date;
+          }if(count ==2){
+            med3.value =doc.id;
+            dsg3.value = doc.data().Dosage;
+            frq3.value = doc.data().Frequency;
+            sdate3.value = doc.data().Start_Date;
+          }else{
+            med4.value = doc.id;
+            dsg4.value = doc.data().Dosage;
+            frq4.value = doc.data().Frequency;
+            sdate4.value = doc.data().Start_Date;
+          }
+          console.log(doc.id, "=>", doc.data());
+          count++;
+        })
     }
     
       async function GetaDocument(){
     var ref = db.collection(ptLName.value);
     var doc = ref.where('idNum', '==', idNum.value);
-
+    
     if (doc.exists()){
       hgt.value = doc.data().Height;
       wgt.value = doc.data().Weight;
@@ -160,6 +187,7 @@
 
     
       currMedsBtn.addEventListener("click", AddDocument_CurrMeds);
+      getCurrMedsBtn.addEventListener("click", GetCurrMeds);
     
     </script>
 </html>
