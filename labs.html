@@ -4,8 +4,8 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="main.css">
     <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <title>Labs</title>
   </head>
   <body>
@@ -36,5 +36,79 @@
         </div>
     </nav>
     </header>
+  <div class ="row justify-content-center" id = "buttonRow">
+    <h2>Patient Information</h2>
+</div>
+    <div class = "row justify-content-around" id = "buttonRow">
+    <div class = "form-group">
+        <label>First Name: </label> <input id = "ptFName" type = "text">
+        <label>Last Name: </label> <input id = "ptLName" type = "text">
+        <label>ID: </label> <input id = "idNum" type="number" size = 5 >
+    </div>
+    <input type="button" value="Generate a table" id = "labTableBtn" />
+</div>
+<div class = "row justify-content-center" id = "buttonRow">
+  <table style = "max-width: fit-content;" id = "ex-table">
+  <tr>
+    <th>Lab Date</th>
+    <th>Lab Type</th>
+  </tr>
+  </table>
+</div>
   </body>
 </html>
+
+<script type = "module">
+
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
+  
+  const firebaseConfig = {
+      apiKey: "AIzaSyD2L_i9Qb9oNmi4Ksb2zpSxbSNqnTPMqVM",
+      authDomain: "ehr-base.firebaseapp.com",
+      projectId: "ehr-base",
+      storageBucket: "ehr-base.appspot.com",
+      messagingSenderId: "1011131662633",
+      appId: "1:1011131662633:web:14833e1b06784c48417738",
+      measurementId: "G-SEQ8ZNX56V"
+    };
+  
+    // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  
+  import{
+    getFirestore, doc, getDoc, setDoc, collection, addDoc,updateDoc,deleteDoc, deleteField, getDocs
+  } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js";
+  
+  
+  // Initialize Cloud Firestore and get a reference to the service
+  const db = getFirestore();
+
+  async function getLabDates(){
+    const snapshot = await getDocs(collection(db, ptLName.value, ptFName.value, "Labs"));
+    var fieldCount = 0;
+    snapshot.forEach((doc) => {
+      console.log(doc.id);
+
+      for (fieldCount < 6; fieldCount++;){
+
+      }
+    })
+  }
+
+
+
+  async function generateLabTable(){
+      var typeCount = 0;
+      const table = document.querySelector('#ex-table');
+      const snapshot = await getDocs(collection(db, ptLName.value, ptFName.value, "Labs"));
+          snapshot.forEach((doc) => {
+            var row = '<td>' + doc.id + '</td>';
+            console.log(doc.id);
+            $(table).append(row);
+            //("ex-table").append(row);
+          }),
+          console.log("outside of foreach");     
+    }
+  labTableBtn.addEventListener("click", generateLabTable);
+
+</script>
