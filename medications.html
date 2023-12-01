@@ -42,14 +42,13 @@
     <div class = "form-group">
         <label>First Name: </label> <input id = "ptFName" type = "text">
         <label>Last Name: </label> <input id = "ptLName" type = "text">
-        <label>ID: </label> <input id = "idNum" type="number" size = 5 >
+        <label>DOB: </label><input id = "dob" type = "date">
     </div>
 </div>
 <div class = "row justify-content-center" id = "buttonRow">
     <h4>Current Medications</h4>
     <button id = "currMedsBtn">Add Current Medications</button>
     <button id = "updCurrMedsBtn"> Update Current Medications</button>
-    <button id = "getCurrMedsBtn">Find Current Medications</button>
     <button id = "delCurrMedsBtn">Delete All Current Medications</button>
 </div>
 <div class = "row justify-content-center">
@@ -155,6 +154,7 @@
         var docMed3Ref = doc(db, ptLName.value, ptFName.value, "Current Meds", med3.value);
         var docMed4Ref = doc(db, ptLName.value, ptFName.value, "Current Meds", med4.value);
     
+
         await setDoc(
           docMed1Ref, {
             Dosage: dsg1.value,
@@ -222,74 +222,8 @@
         });
       }
 
-
-    async function GetCurrMeds(){
-        var Meds = collection(db, ptLName.value, ptFName.value,"Current Meds");
-        var count = 0;
-        const snapshot = await getDocs(collection(db, ptLName.value, ptFName.value, "Current Meds"));
-        snapshot.forEach((doc)=> {
-          console.log(count);
-          if (count == 0){
-            med1.value = doc.id;
-            dsg1.value = doc.data().Dosage;
-            frq1.value = doc.data().Frequency;
-            sdate1.value = doc.data().Start_Date;
-          }if(count == 1){
-            med2.value = doc.id;
-            dsg2.value = doc.data().Dosage;
-            frq2.value = doc.data().Frequency;
-            sdate2.value = doc.data().Start_Date;
-          }if(count ==2){
-            med3.value =doc.id;
-            dsg3.value = doc.data().Dosage;
-            frq3.value = doc.data().Frequency;
-            sdate3.value = doc.data().Start_Date;
-          }else{
-            med4.value = doc.id;
-            dsg4.value = doc.data().Dosage;
-            frq4.value = doc.data().Frequency;
-            sdate4.value = doc.data().Start_Date;
-          }
-          console.log(doc.id, "=>", doc.data());
-          count++;
-        })
-    }
-    async function GetPastMeds(){
-        var count = 0;
-        const snapshot = await getDocs(collection(db, ptLName.value, ptFName.value, "Past Meds"));
-        snapshot.forEach((doc)=> {
-          console.log(count);
-          if (count == 0){
-            pMed1.value = doc.id;
-            pDsg1.value = doc.data().Dosage;
-            pFrq1.value = doc.data().Frequency;
-            pSdate1.value = doc.data().Start_Date;
-          }if(count == 1){
-            pMed2.value = doc.id;
-            pDsg2.value = doc.data().Dosage;
-            pFrq2.value = doc.data().Frequency;
-            pSdate2.value = doc.data().Start_Date;
-          }if(count ==2){
-            pMed3.value =doc.id;
-            pDsg3.value = doc.data().Dosage;
-            pFrq3.value = doc.data().Frequency;
-            pSdate3.value = doc.data().Start_Date;
-          }else{
-            pMed4.value = doc.id;
-            pDsg4.value = doc.data().Dosage;
-            pFrq4.value = doc.data().Frequency;
-            pSdate4.value = doc.data().Start_Date;
-          }
-          console.log(doc.id, "=>", doc.data());
-          count++;
-        })
-    }
-    
-
       currMedsBtn.addEventListener("click", AddDocument_CurrMeds);
-      getCurrMedsBtn.addEventListener("click", GetCurrMeds);
       pastMedsBtn.addEventListener("click", AddDocument_PastMeds);
-      getPastMedsBtn.addEventListener("click", GetPastMeds);
     
     </script>
 </html>

@@ -31,7 +31,7 @@ input{
 }
 table {
     border-spacing: 10px;
-    border:1px solid #FF0000;
+    border:1px solid black;
   }
 thead{
     display: table-header-group;
@@ -42,7 +42,7 @@ thead{
     padding-bottom: 20px;
     padding-left: 30px;
     padding-right: 30px;
-    border:1px solid #FF0000;
+    border:1px solid black;
     text-align: center;
   }
 
