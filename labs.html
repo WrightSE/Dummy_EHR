@@ -129,37 +129,41 @@
     var rowHead;
     var field = "";
     var row = "<tr>";
-    var cells;
-
-    console.log("before snap");
+    var cells = "";
+    var ncells = "" ;
     const snapshot = await getDocs(collection(db, ptLName.value, ptFName.value, labDate.value));
     const table = document.querySelector("#table_1");
-    var tHead = table.createTHead();
-    console.log("after snap");
+    //var tHead = table.createTHead();
     snapshot.forEach((doc)=>{
       if(doc.id == ""){
         console.log("in null area");
         return;
       }else{
-        console.log("in else so should have a valid id");
-        var header = "<th>" + doc.id + "</th>";
-        $(tHead).append(header);
-        table.append(tHead);
+        var header = "<tr><th>"+ doc.id + " from " + labDate.value + "</th></tr>" ;
+        var nrow = row.concat(header);
         for(field in doc.data()){
-          console.log("in the field for loop");
-          console.log("field = " + field);
-          console.log ("field value = " + doc.get(field));
           if (doc.get(field) == ""){
             console.log("in break if");
-            continue;
+            break;
           }else{
-            var row = "<tr><td>" + doc.get(field) + "</td></tr>";
-            $(table).append(row);
+          console.log("doc field value = " + doc.get(field));
+            var cell = "<td>" + doc.get(field) + "</td>";
+            ncells = cells.concat(cell);           
           } 
+          //console.log("ncells = " + ncells);
+          row = row.concat(ncells);
+          //console.log("row = " + row);
+          
         }
         
       }
-    })
+      $(table).append(nrow);
+        row = row.concat("</tr>")
+        $(table).append(row);
+        row = "<tr>"
+        console.log("ncells = " + ncells)
+    }
+    )
   }
 
   async function generateLabTable(){
