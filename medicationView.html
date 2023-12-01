@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="main.css">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <title>Medications</title>
+  </head>
+<body>
+    <header>
+        <nav id="mainnav" class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light border-bottom box-shadow mb-3">
+          <div class="container">
+              <a class="navbar-brand" asp-area="" asp-page="/Index">Dummy EHR</a>
+              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                      aria-expanded="false" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon"></span>
+              </button>
+              <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                  <ul class="navbar-nav flex-grow-1">
+                      <li class="nav-item">
+                          <a class="nav-link text-dark" href = "./index.html">Home</a>
+                      </li>
+                      <li class="nav-item">
+                          <a class="nav-link text-dark" href = "./patient.html">Patient Information</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link text-dark" href = "./medicationView.html">Patient Medications</a>
+                    </li>
+                        <li class="nav-item">
+                        <a class="nav-link text-dark" href = "./labs.html">Patient Labs</a>
+                    </li>
+                  </ul>
+              </div>
+          </div>
+      </nav>
+    </header>
+<div class ="row justify-content-center" id = "buttonRow">
+    <h2>Patient Information</h2>
+</div>
+    <div class = "row justify-content-around" id = "buttonRow">
+    <div class = "form-group">
+        <label>First Name: </label> <input id = "ptFName" type = "text">
+        <label>Last Name: </label> <input id = "ptLName" type = "text">
+        <label>DOB: </label> <input id = "dob" type = "date">
+    </div>
+    <input type="button" value="View Medications" id = "MedsTableBtn" />
+    <input type = "button" value = "Edit/Add Medications" id = "editMedsBtn" />
+</div>
+<div class = "row justify-content-center" id = "buttonRow">
+    <h4>Current Medications</h4>
+    </div><div class = "row justify-content-center" id = "buttonRow">
+    <table style = "max-width: fit-content;" id = "currMedsTable">
+        <th> Medication Name</th>
+        <th> Dosage</th>
+        <th> Frequency</th>
+        <th>Start Date</th>
+    </table>
+  </div>
+<div class = "row justify-content-center" id = "buttonRow">
+    <h4>Past Medications</h4>
+</div><div class = "row justify-content-center" id = "buttonRow">
+    <table style = "max-width: fit-content;" id = "pastMedsTable">
+        <th> Medication Name</th>
+        <th> Dosage</th>
+        <th> Frequency</th>
+        <th>Start Date</th>
+    </table>
+  </div>
+</body>
+<script type = "module">
+
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
+    
+    const firebaseConfig = {
+        apiKey: "AIzaSyD2L_i9Qb9oNmi4Ksb2zpSxbSNqnTPMqVM",
+        authDomain: "ehr-base.firebaseapp.com",
+        projectId: "ehr-base",
+        storageBucket: "ehr-base.appspot.com",
+        messagingSenderId: "1011131662633",
+        appId: "1:1011131662633:web:14833e1b06784c48417738",
+        measurementId: "G-SEQ8ZNX56V"
+      };
+    
+      // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    
+    import{
+      getFirestore, doc, getDoc, setDoc, collection, addDoc,updateDoc,deleteDoc, deleteField, getDocs
+    } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js";
+    
+    
+    // Initialize Cloud Firestore and get a reference to the service
+    const db = getFirestore();
+
+    function movePages(){
+        location.href="./medications.html";
+    }
+
+    async function GetCurrMeds(){
+        var count = 0;
+        const snapshot = await getDocs(collection(db, ptLName.value, ptFName.value, "Current Meds"));
+        const table = document.querySelector("#currMedsTable");
+        snapshot.forEach((doc)=>{
+            if (count ==0){
+                if(doc.id == ""){
+                    return;
+                }else{
+                    var row  = "<tr><td>" + doc.id + "</td>" + "<td>" + doc.data().Dosage + "</td>" +"<td>" + doc.data().Frequency + "</td>" + "<td>" + doc.data().Start_Date.toDate() + "</td>";
+                    $(table).append(row);
+                }
+            }
+        })
+    }
+    async function GetPastMeds(){
+        var count = 0;
+        const snapshot = await getDocs(collection(db, ptLName.value, ptFName.value, "Past Meds"));
+        const table = document.querySelector("#pastMedsTable");
+        snapshot.forEach((doc)=>{
+            if (count ==0){
+                if(doc.id == ""){
+                    return;
+                }else{
+                    var row  = "<tr><td>" + doc.id + "</td>" + "<td>" + doc.data().Dosage + "</td>" +"<td>" + doc.data().Frequency + "</td>" + "<td>" + doc.data().Start_Date.toDate() + "</td>";
+                    $(table).append(row);
+                }
+            }
+        })
+
+    }
+    async function getMeds(){
+        GetCurrMeds();
+        GetPastMeds();
+    }
+    
+      MedsTableBtn.addEventListener("click", getMeds);
+      editMedsBtn.addEventListener("click", movePages);
+    
+    </script>
+</html>

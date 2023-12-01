@@ -26,7 +26,7 @@
                         <a class="nav-link text-dark" href = "./patient.html">Patient Information</a>
                     </li>
                     <li class="nav-item">
-                      <a class="nav-link text-dark" href = "./medications.html">Patient Medications</a>
+                      <a class="nav-link text-dark" href = "./medicationView.html">Patient Medications</a>
                   </li>
                       <li class="nav-item">
                       <a class="nav-link text-dark" href = "./labs.html">Patient Labs</a>
@@ -48,12 +48,35 @@
     <input type="button" value="Generate a table" id = "labTableBtn" />
 </div>
 <div class = "row justify-content-center" id = "buttonRow">
-  <table style = "max-width: fit-content;" id = "ex-table">
+  <table style = "max-width: fit-content;" id = "date-table">
   <tr>
-    <th>Lab Date</th>
-    <th>Lab Type</th>
+    <th>Lab Dates</th>
   </tr>
   </table>
+</div>
+<div class = "row justify-content-center" id = "buttonRow">
+  <h4>Get Lab Panels</h4>
+</div><div class = "row justify-content-center">
+  <h6>You should have Patient First Name, Last Name and Lab Date areas filled.</h6>
+</div>
+<div class = "row justify-content-center">
+  <label>Lab Date Requesting</label><input id = "labDate" type = "text">
+  <input type = "button" value = "Request labs" id = "labDateBtn" />
+  <!-- <input type = "button" value = "CBC Count Test" id = "cbcBtn" /> -->
+</div>
+<div class = "row justify-content-center">
+  <table id = "table_1">
+    <tr>
+    </tr>
+  </table> 
+  <table id = "table_2">
+    <tr>
+    </tr>
+  </table> 
+  <table id = "table_3">
+    <tr>
+    </tr>
+  </table> 
 </div>
   </body>
 </html>
@@ -83,32 +106,105 @@
   // Initialize Cloud Firestore and get a reference to the service
   const db = getFirestore();
 
-  async function getLabDates(){
-    const snapshot = await getDocs(collection(db, ptLName.value, ptFName.value, "Labs"));
-    var fieldCount = 0;
-    snapshot.forEach((doc) => {
-      console.log(doc.id);
 
-      for (fieldCount < 6; fieldCount++;){
+  async function GetCurrMeds(){
+        var count = 0;
+        const snapshot = await getDocs(collection(db, ptLName.value, ptFName.value, "Current Meds"));
+        const table = document.querySelector("#currMedsTable");
+        snapshot.forEach((doc)=>{
+            if (count ==0){
+                if(doc.id == ""){
+                    return;
+                }else{
+                    var row  = "<tr><td>" + doc.id + "</td>" + "<td>" + doc.data().Dosage + "</td>" +"<td>" + doc.data().Frequency + "</td>" + "<td>" + doc.data().Start_Date.toDate() + "</td>";
+                    $(table).append(row);
+                }
+            }
+        })
+    }
 
+
+    async function generaLabTable(){
+      var typeCount = 0;
+      var field = "";
+      const table = document.querySelector('#date-table');
+      console.log("outside of for loop")
+      const snap = await getDoc(doc(db, ptLName.value, ptFName.value));
+        for (field in snap.data()){
+
+          console.log("field =" + field);
+          if (field == "labDate"){
+            
+            console.log("inside of for and field value = " + snap.get(field));
+            console.log("in if statement");
+            var row = '<tr><td>' + snap.get(field) + '</td></tr>';
+            $(table).append(row);
+          }else{
+            continue;
+          }
+        }
+      }
+  async function GetLabs(){
+    var count = 0;
+    var rowHead;
+    var field = "";
+    var row = "<tr>";
+    var cells;
+    const snapshot = await getDocs(collection(db, ptLName.value, ptFName.value, labDate.value));
+    const table = document.querySelector("#table_1");
+    var tHead = table.createTHead();
+    snapshot.forEach((doc)=>{
+      if(doc.id == ""){
+        return;
+      }else{
+        var header = "<th>" + doc.id + "</th>";
+        $(tHead).append(header);
+        table.append(tHead);
+        for(field in doc.data()){
+          console.log("field = " + field);
+          console.log ("field value = " + doc.get(field));
+          if (doc.get(field) == ""){
+            console.log("in break if");
+            continue;
+          }else{
+            var row = "<tr><td>" + doc.get(field) + "</td></tr>";
+            $(table).append(row);
+          } 
+        }
+        
       }
     })
   }
 
-
-
   async function generateLabTable(){
       var typeCount = 0;
-      const table = document.querySelector('#ex-table');
-      const snapshot = await getDocs(collection(db, ptLName.value, ptFName.value, "Labs"));
+      var field = "";
+      const table = document.querySelector('#date-table');
+      console.log("outside of for loop")
+      const snap = await getDoc(doc(db, ptLName.value, ptFName.value));
+        for (field in snap.data()){
+          console.log("field =" + field);
+          if (field == "labDate"){
+            console.log("inside of for and field value = " + snap.get(field));
+            var row = '<tr><td>' + snap.get(field) + '</td></tr>';
+            $(table).append(row);
+          }else if (field == "labDate2"){
+            console.log("field value = " + snap.get(field));
+            var row = '<tr><td>' + snap.get(field) + '</td></tr>';
+            $(table).append(row);
+          }else{
+            continue;
+          }
+        }
+/*      const snapshot = await getDocs(collection(db, ptLName.value, ptFName.value, "Labs"));
           snapshot.forEach((doc) => {
-            var row = '<td>' + doc.id + '</td>';
+            var row = '<tr><td>' + doc.id + '</td></tr>';
             console.log(doc.id);
             $(table).append(row);
-            //("ex-table").append(row);
           }),
-          console.log("outside of foreach");     
+          console.log("outside of foreach");     */
     }
   labTableBtn.addEventListener("click", generateLabTable);
+  labDateBtn.addEventListener("click", GetLabs);
 
 </script>

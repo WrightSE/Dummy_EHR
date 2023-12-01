@@ -29,3 +29,23 @@ input{
 #currcol{
     padding-top: -50px;
 }
+table {
+    border-spacing: 10px;
+    border:1px solid #FF0000;
+  }
+thead{
+    display: table-header-group;
+}
+
+  th, td {
+    padding-top: 10px;
+    padding-bottom: 20px;
+    padding-left: 30px;
+    padding-right: 30px;
+    border:1px solid #FF0000;
+    text-align: center;
+  }
+
+#mainnav{
+    background-color: cornflowerblue;
+}
