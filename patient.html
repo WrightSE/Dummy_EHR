@@ -45,6 +45,12 @@
         <label>DOB: </label><input id = "dob" type = "date">
     </div>
 </div>
+<div class = "row justify-content-center">
+  <button id = "inBtn">Add Patient</button>
+  <button id = "upBtn">Update Patient Information</button>
+  <button id = "seBtn">Find Patient</button>
+  <button id = "deBtn">Delete Patient</button>
+</div>
 
 <div class = "row justify-content-center" id = "buttonRow">
     <h4>General Information</h4>
@@ -93,23 +99,15 @@
     <h4>Blood Pressure</h4>
 </div>
 <div class = "row justify-content-center" id = "buttonRow">
-<div class = "col-sm-1 align-self-center">
+<div class = "col-sm-1 align-self-center" id = "otherBP">
     <label>Random: </label><p></p><input id = "ranSys" type = number size = 5><p> ————</p> <input id = "ranDia" type = number size = 5>
-  </div><div class = "col-sm-1 align-self-center">
+  </div><div class = "col-sm-1 align-self-center" id = "otherBP">
     <label>Last Visit: </label><p></p><input id = "lvSys" type = number size = 5><p> ————</p> <input id = "lvDia" type = number size = 5>
   </div><div class = "col-sm-1 align-self-center" id = "currcol">
     <label>Current Visit: </label><p></p><input id = "cvSys" type = number size = 5><p> ————</p> <input id = "cvDia" type = number size = 5>
   </div>
 </div>
 
-<div class = "row justify-content-center" id = "buttonRow">
-    <div class ="col-med-6">
-        <p></p>
-        <button id = "inBtn">ADD</button>
-        <button id = "upBtn">UPDATE</button> <!-- have a create(similar to insert), find(similar to select), delete and update button-->
-        <button id = "seBtn">FIND</button> <!-- have an update medications button to use for updating and displaying meds-->
-        <button id = "deBtn">DELETE</button>
-      </div>
 </div>
 <div class ="row" id ="buttonRow"></div>
 </body>

@@ -29,6 +29,9 @@ input{
 #currcol{
     padding-top: -50px;
 }
+#otherBP{
+    padding-top: 25px;
+}
 table {
     border-spacing: 10px;
     border:1px solid black;

@@ -44,38 +44,29 @@
         <label>First Name: </label> <input id = "ptFName" type = "text">
         <label>Last Name: </label> <input id = "ptLName" type = "text">
         <label>DOB: </label> <input id = "dob" type = "date">
-    </div></div>
-    <div class = "row justify-content-center">
+    </div>
     <input type="button" value="View Medications" id = "MedsTableBtn" />
-    <input type = "button" value = "Edit/Add Medications" id = "editMedsBtn" />
-    <input type = "button" value = "Delete Medications" id = "delBtn"/>
 </div>
-<div class = "row justify-content-center" id = "buttonRow">
-    <h4>Current Medications</h4>
-    </div><div class = "row justify-content-center" id = "buttonRow">
-    <table style = "max-width: fit-content;" id = "currMedsTable">
-        <th> Medication Name</th>
-        <th> Dosage</th>
-        <th> Frequency</th>
-        <th> Start Date</th>
-        <th> Number </th>
-    </table>
-  </div>
-<div class = "row justify-content-center" id = "buttonRow">
-    <h4>Past Medications</h4>
-</div><div class = "row justify-content-center" id = "buttonRow">
-    <table style = "max-width: fit-content;" id = "pastMedsTable">
-        <th> Medication Name</th>
-        <th> Dosage</th>
-        <th> Frequency</th>
-        <th> End Date</th>
-        <th> Number</th>
-    </table>
-  </div>
-</body>
+    <div class = "row justify-content-center">
+        <h1>Delete A Medication</h1>
+        </div>
+    <div class = "row justify-content-center" id = "buttonRow">
+        <label>Medication Name</label> <input id = "medName" type = "text">
+        <label>Medication Status</label>
+        <select id ="Status">
+            <option value = "Current Meds">Current</option>
+            <option value = "Past Meds">Past</option>
+        </select>
+        </div>
+        <div class = "row justify-content-center">
+        <input type = "button" value = "Delete Medication" id = "delBtn" />
+    </div>
+    </div>
+    </div>
 <script type = "module">
 
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
+    
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
     
     const firebaseConfig = {
         apiKey: "AIzaSyD2L_i9Qb9oNmi4Ksb2zpSxbSNqnTPMqVM",
@@ -98,62 +89,32 @@
     // Initialize Cloud Firestore and get a reference to the service
     const db = getFirestore();
 
-    function moveEditPages(){
-        location.href="./medications.html";
-    }
-    function moveDelPage(){
-        location.href = "./delMed.html";
-}
-   
 
-async function loopCount(tableGiven){
-    var tbl = tableGiven;
-    for(var i = 1, row; row = tbl.rows[i]; i++){
-        let td = document.createElement("td");
-        td.append(i);
-        row.appendChild(td);
-    }
-}
-
-    async function GetCurrMeds(){
-        const snapshot = await getDocs(collection(db, ptLName.value, ptFName.value, "Current Meds"));
-        const table = document.querySelector("#currMedsTable");
-        const delBtn = document.querySelector("#delBtn");
-        snapshot.forEach((doc)=>{
-                if(doc.id == ""){
-                    return;
-                }else{
-                    var row  = "<tr><td>" + doc.id + "</td>" + "<td>" + doc.data().Dosage + "</td>" +"<td>" + doc.data().Frequency + "</td>" + "<td>" + doc.data().Start_Date.toDate() + "</td>";
-                    $(table).append(row);
-                }
-            }
-        )
-        loopCount(table);
-    }
-    async function GetPastMeds(){
-        var count = 0;
-        const snapshot = await getDocs(collection(db, ptLName.value, ptFName.value, "Past Meds"));
-        const table = document.querySelector("#pastMedsTable");
-        snapshot.forEach((doc)=>{
-            if (count ==0){
-                if(doc.id == ""){
-                    return;
-                }else{
-                    var row  = "<tr><td>" + doc.id + "</td>" + "<td>" + doc.data().Dosage + "</td>" +"<td>" + doc.data().Frequency + "</td>" + "<td>" + doc.data().Start_Date.toDate() + "</td>";
-                    $(table).append(row);
-                }
-            }
+    async function DeleteMed(){
+        if (medName.value == ""){
+            alert("No such medication found for this patient");
+        }else{
+        var medRef = doc(db, ptLName.value, ptFName.value, Status.value, medName.value);
+        await deleteDoc(medRef).then(()=>{
+            alert("Medication successfully deleted")
         })
-        loopCount(table);
     }
-    async function getMeds(){
-        GetCurrMeds();
-        GetPastMeds();
     }
-    
-      MedsTableBtn.addEventListener("click", getMeds);
-      editMedsBtn.addEventListener("click", moveEditPages);
-      delBtn.addEventListener("click", moveDelPage);
-    
-    </script>
-</html>
+
+    async function DeletesMed(){
+        var medRef = doc(db, ptLName.value, ptFName.value, "Curren")
+        var ref = doc(db,ptLName, ptFName);
+        const docSnap = await getDoc(ref);
+        if(!docSnap.exists()){
+          alert("no such document exists");
+          return;
+        }
+        await deleteDoc(ref).then(()=>{
+          alert("Document successfully deleted");
+        }).catch((error)=>{
+          alert("Operation failed with error"+ error);
+        })
+      }
+
+      delBtn.addEventListener("click", DeleteMed)
+</script>

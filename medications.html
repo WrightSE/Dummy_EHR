@@ -49,7 +49,6 @@
     <h4>Current Medications</h4>
     <button id = "currMedsBtn">Add Current Medications</button>
     <button id = "updCurrMedsBtn"> Update Current Medications</button>
-    <button id = "delCurrMedsBtn">Delete All Current Medications</button>
 </div>
 <div class = "row justify-content-center">
 <div class = "form-group" id = "firstCurrRow">
@@ -87,14 +86,13 @@
     <h4>Past Medications</h4>
     <button id = "pastMedsBtn">Add Past Medications</button>
     <button id = "getPastMedsBtn">Update Past Medications</button>
-    <button id = "delCurrMedsBtn">Delete All Past Medications</button>
 </div>
 <div class = "row justify-content-center">
 <div class = "form-group" id = "medsRow">
     <label>Medication 1: </label><input id = "pMed1" type = "text">
     <label>Dosage: </label><input id = "pDsg1" type = "text">
     <label>Frequency: </label><input id = "pFrq1" type = "text">
-    <label>Start Date: </label><input id = "pSdate1" type = "date">
+    <label>End Date: </label><input id = "pSdate1" type = "date">
 </div>
 </div>
 <div class = "row justify-content-center">
@@ -102,7 +100,7 @@
     <label>Medication 2: </label><input id = "pMed2" type = "text">
     <label>Dosage: </label><input id = "pDsg2" type = "text">
     <label>Frequency: </label><input id = "pFrq2" type = "text">
-    <label>Start Date: </label><input id = "pSdate2" type = "date">
+    <label>End Date: </label><input id = "pSdate2" type = "date">
 </div>
 </div>
 <div class = "row justify-content-center">
@@ -110,7 +108,7 @@
     <label>Medication 3: </label><input id = "pMed3" type = "text">
     <label>Dosage: </label><input id = "pDsg3" type = "text">
     <label>Frequency: </label><input id = "pFrq3" type = "text">
-    <label>Start Date: </label><input id = "pSdate3" type = "date">
+    <label>End Date: </label><input id = "pSdate3" type = "date">
 </div>
 </div>
 <div class = "row justify-content-center">
@@ -118,7 +116,7 @@
     <label>Medication 4: </label><input id = "pMed4" type = "text">
     <label>Dosage: </label><input id = "pDsg4" type = "text">
     <label>Frequency: </label><input id = "pFrq4" type = "text">
-    <label>Start Date: </label><input id = "pSdate4" type = "date">
+    <label>End Date: </label><input id = "pSdate4" type = "date">
 </div>
 </div>
 </body>
@@ -147,82 +145,144 @@
     // Initialize Cloud Firestore and get a reference to the service
     const db = getFirestore();
 
-      async function AddDocument_CurrMeds(){
-        var docMed1Ref = doc(db, ptLName.value, ptFName.value, "Current Meds", med1.value);
-        var docMed2Ref = doc(db, ptLName.value, ptFName.value, "Current Meds", med2.value);
-        var docMed3Ref = doc(db, ptLName.value, ptFName.value, "Current Meds", med3.value);
-        var docMed4Ref = doc(db, ptLName.value, ptFName.value, "Current Meds", med4.value);
+    function boolMedCheck(medvalue){
+      if (medvalue == ""){
+        return false;
+      }else{
+        return true;
+      }
+    }
+
     
 
-        await setDoc(
+      async function AddDocument_CurrMeds(){
+        if(boolMedCheck(med1.value)){
+          var docMed1Ref = doc(db, ptLName.value, ptFName.value, "Current Meds", med1.value);
+          await setDoc(
           docMed1Ref, {
+            ID : Math.floor(Math.random() * 1000),
             Dosage: dsg1.value,
             Frequency: frq1.value,
-            Start_Date: sdate1.value
+            Start_Date: new Date(sdate1.value)
           });
-        await setDoc(
+        }else if(boolMedCheck(med2.value)){
+          var docMed2Ref = doc(db, ptLName.value, ptFName.value, "Current Meds", med2.value);
+          await setDoc(
           docMed2Ref, {
+            ID : Math.floor(Math.random() * 1000),
             Dosage: dsg2.value,
             Frequency: frq2.value,
-            Start_Date: sdate2.value
+            Start_Date: (sdate2.value).toDate()
           });
-        await setDoc(
+        }else if(boolMedCheck(med3.value)){
+          var docMed3Ref = doc(db, ptLName.value, ptFName.value, "Current Meds", med3.value);
+          await setDoc(
           docMed3Ref, {
+            ID : Math.floor(Math.random() * 1000),
             Dosage: dsg3.value,
             Frequency: frq3.value,
-            Start_Date: sdate3.value
+            Start_Date: (sdate3.value).toDate()
           });
-          await setDoc(
+        }else if(boolMedCheck(med4.value)){
+        var docMed4Ref = doc(db, ptLName.value, ptFName.value, "Current Meds", med4.value);
+        await setDoc(
           docMed4Ref, {
+            ID : Math.floor(Math.random() * 1000),
             Dosage: dsg4.value,
             Frequency: frq4.value,
-            Start_Date: sdate4.value
-          }).then(()=>{
+            Start_Date: (sdate4.value).toDate()
+          });
+        }else{
+          alert("No medications found to add to patient")
+        }
           alert("Meds successfully added");
-        }).catch((error)=>{
-          alert("Operation failed with error"+ error);
-        });
       }
 
 
       async function AddDocument_PastMeds(){
-        var docMed1Ref = doc(db, ptLName.value, ptFName.value, "Past Meds", pMed1.value);
-        var docMed2Ref = doc(db, ptLName.value, ptFName.value, "Past Meds", pMed2.value);
-        var docMed3Ref = doc(db, ptLName.value, ptFName.value, "Past Meds", pMed3.value);
-        var docMed4Ref = doc(db, ptLName.value, ptFName.value, "Past Meds", pMed4.value);
-    
-        await setDoc(
+        if(boolMedCheck(pMed1.value)){
+          var docMed1Ref = doc(db, ptLName.value, ptFName.value, "Current Meds", pMed1.value);
+          await setDoc(
           docMed1Ref, {
+            ID : Math.floor(Math.random() * 1000),
             Dosage: pDsg1.value,
             Frequency: pFrq1.value,
-            Start_Date: pSdate1.value
+            Start_Date: new Date(pSdate1.value)
           });
-        await setDoc(
+        }else if(boolMedCheck(pMed2.value)){
+          var docMed2Ref = doc(db, ptLName.value, ptFName.value, "Current Meds", pMed2.value);
+          await setDoc(
           docMed2Ref, {
+            ID : Math.floor(Math.random() * 1000),
             Dosage: pDsg2.value,
             Frequency: pFrq2.value,
-            Start_Date: pSdate2.value
+            Start_Date: new Date(pSdate2.value)
           });
-        await setDoc(
+        }else if(boolMedCheck(pMed3.value)){
+          var docMed3Ref = doc(db, ptLName.value, ptFName.value, "Current Meds", pMed3.value);
+          await setDoc(
           docMed3Ref, {
+            ID : Math.floor(Math.random() * 1000),
             Dosage: pDsg3.value,
             Frequency: pFrq3.value,
-            Start_Date: pSdate3.value
+            Start_Date: new Date(pSdate3.value)
           });
-          await setDoc(
+        }else if(boolMedCheck(pMed4.value)){
+        var docMed4Ref = doc(db, ptLName.value, ptFName.value, "Current Meds", pMed4.value);
+        await setDoc(
           docMed4Ref, {
+            ID : Math.floor(Math.random() * 1000),
             Dosage: pDsg4.value,
             Frequency: pFrq4.value,
-            Start_Date: pSdate4.value
-          }).then(()=>{
-          alert("Past Meds successfully added");
-        }).catch((error)=>{
-          alert("Operation failed with error"+ error);
-        });
+            Start_Date: new Date(pSdate4.value)
+          });
+        }else{
+          alert("Either no medications or no patient found.")
+        }
+          alert("Meds successfully added.");
       }
 
+      async function updateCurrMeds(){
+        if (boolMedCheck(med1.value)){
+          var docMedRef = doc(db, ptLName.value, ptFName.value, "Current Meds", med1.value);
+          await updateDoc(
+            docMedRef, {
+              Dosage : dsg1.value,
+              Frequency : frq1.value,
+              Start_Date : new Date(sdate1.value)
+            });
+          }else if (boolMedCheck(med2.value)){
+          var docMedRef = doc(db, ptLName.value, ptFName.value, "Current Meds", med2.value);
+          await updateDoc(
+            docMedRef, {
+              Dosage : dsg2.value,
+              Frequency : frq2.value,
+              Start_Date : new Date(sdate2.value)
+            });
+        }else if (boolMedCheck(med3.value)){
+          var docMedRef = doc(db, ptLName.value, ptFName.value, "Current Meds", med3.value);
+          await updateDoc(
+            docMedRef, {
+              Dosage : dsg3.value,
+              Frequency : frq3.value,
+              Start_Date : new Date(sdate3.value)
+            });
+        }else if (boolMedCheck(med4.value)){
+          var docMedRef = doc(db, ptLName.value, ptFName.value, "Current Meds", med4.value);
+          await updateDoc(
+            docMedRef, {
+              Dosage : dsg4.value,
+              Frequency : frq4.value,
+              Start_Date : new Date(sdate4.value)
+            });
+        }else{
+          alert("No such medication found for this patient.");
+        } alert("Medications successfully updated.")
+      } 
+        
       currMedsBtn.addEventListener("click", AddDocument_CurrMeds);
       pastMedsBtn.addEventListener("click", AddDocument_PastMeds);
+      updCurrMedsBtn.addEventListener("click", updateCurrMeds);
     
     </script>
 </html>
